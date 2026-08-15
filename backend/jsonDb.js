@@ -2,7 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 
-const dbPath = path.join(__dirname, 'data', 'db.json');
+const dbPath = process.env.VERCEL
+  ? path.join('/tmp', 'dentalshark-db.json')
+  : path.join(__dirname, 'data', 'db.json');
 
 const INITIAL_USERS = [
   { _id: "owner_id", uid:"owner", name:"Eng. Ahmed Kotb", email:"ahmed.kotb@dentalshark.eg", password:"Admin@Shark2024!", role:"CEO", dept:"CEO & Admin", phone:"+20 100 123 4567", initials:"AK", color:"linear-gradient(135deg,#1d4ed8,#3b82f6)", orders:42, spent:"EGP 280,000", joined:"Jan 2022", sharkPts:504 },
