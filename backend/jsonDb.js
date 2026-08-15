@@ -43,8 +43,10 @@ const INITIAL_PRODUCTS = [
 
 // Initialize database with default structure if it doesn't exist
 function initDB() {
-  if (!fs.existsSync(path.join(__dirname, 'data'))) {
-    fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true });
+  const dataDir = path.dirname(dbPath);
+
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
   }
   
   let needsWrite = false;
