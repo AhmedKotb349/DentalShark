@@ -1,43 +1,46 @@
 const mongoose = require('mongoose');
-const { MongoMemoryServer } = require('mongodb-memory-server');
-const path = require('path');
-const fs = require('fs');
 
-let mongod = null;
+let connectionPromise = null;
 
 async function connectDB() {
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
+
+  if (!process.env.MONGODB_URI) {
+    throw new Error('MONGODB_URI is not configured');
+  }
+
+  if (!connectionPromise) {
+    connectionPromise = mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 10000,
+    });
+  }
+
   try {
-    // Attempt standard connection first with a short timeout
-    await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 2000 // 2 seconds timeout
-    });
-    console.log('✅ Connected to existing MongoDB instance');
+    await connectionPromise;
+
+    console.log('✅ Connected to MongoDB Atlas');
+
+    return mongoose.connection;
   } catch (err) {
-    console.log('⚠️ Could not connect to external MongoDB, falling back to embedded database...');
-    
-    const dbPath = path.join(__dirname, 'data');
-    if (!fs.existsSync(dbPath)) {
-      fs.mkdirSync(dbPath, { recursive: true });
-    }
+    connectionPromise = null;
 
-    mongod = await MongoMemoryServer.create({
-      instance: {
-        dbPath: dbPath,
-        storageEngine: 'wiredTiger' // Needed for persistence
-      }
-    });
+    console.error('❌ MongoDB connection failed:', err.message);
 
-    const uri = mongod.getUri();
-    await mongoose.connect(uri);
-    console.log(`✅ Connected to embedded MongoDB (persistence enabled)`);
+    throw err;
   }
 }
 
 async function closeDB() {
-  await mongoose.disconnect();
-  if (mongod) {
-    await mongod.stop();
+  if (mongoose.connection.readyState !== 0) {
+    await mongoose.disconnect();
   }
+
+  connectionPromise = null;
 }
 
-module.exports = { connectDB, closeDB };
+module.exports = {
+  connectDB,
+  closeDB,
+};
