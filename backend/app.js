@@ -9,6 +9,20 @@ dotenv.config();
 
 const app = express();
 
+// Connect to MongoDB Atlas before handling API requests
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('❌ Database connection error:', err.message);
+    res.status(500).json({
+      error: 'Database connection failed',
+      details: err.message,
+    });
+  }
+});
+
 // ─── Middleware ───────────────────────────────────────────────
 app.use(cors({ origin: '*', credentials: true }));
 app.use(express.json({ limit: '20mb' }));
@@ -21,6 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 // serverless request/response model the way it does on a traditional
 // always-on server.
 const db = require('./jsonDb');
+const { connectDB } = require('./db');
 
 // ─── File uploads ─────────────────────────────────────────────
 // NOTE: this writes to local disk, which works fine on a traditional host
