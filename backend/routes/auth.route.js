@@ -1,9 +1,8 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const Database = require('../patterns/Database');
+const User = require('../models/User');
 const { UserFactory } = require('../patterns/UserFactory');
 const { buildAuthValidationChain } = require('../patterns/ValidationChain');
-const db = Database.getInstance(); // SINGLETON: shared data-access instance
 const router = express.Router();
 
 // Generate JWT token
@@ -51,7 +50,9 @@ router.post('/login', async (req, res) => {
     }
 
     // Find user by email
-    const user = db.users.findOne({ email: email.toLowerCase().trim() });
+   const user = await User.findOne({
+  email: email.toLowerCase().trim()
+});
     if (!user) {
       return res.status(401).json({ error: 'No account found with this email' });
     }
@@ -76,7 +77,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Verify password
-    const isMatch = await db.users.comparePassword(password, user.password);
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ error: 'Incorrect password' });
     }
@@ -137,7 +138,11 @@ router.get('/me', async (req, res) => {
     }
 
     if (!user) return res.status(404).json({ error: 'User not found' });
-    res.json({ user: db.users.toProfile(user) });
+    res.json({
+  success: true,
+  token,
+  user: user.toProfile()
+});
   } catch (err) {
     res.status(401).json({ error: 'Invalid or expired token' });
   }
