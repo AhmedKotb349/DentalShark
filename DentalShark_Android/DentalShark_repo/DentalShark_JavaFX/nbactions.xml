@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Tells NetBeans what to actually do when you click Run / Debug on this
+  Maven project. Without this, NetBeans defaults to a plain `mvn package`,
+  which builds the jar but doesn't launch a JavaFX app (JavaFX needs the
+  javafx-maven-plugin's own `javafx:run` goal, which sets up the module
+  path correctly).
+-->
+<actions>
+    <action>
+        <actionName>run</actionName>
+        <packagings>
+            <packaging>jar</packaging>
+        </packagings>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>org.openjfx:javafx-maven-plugin:0.0.8:run</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>debug</actionName>
+        <packagings>
+            <packaging>jar</packaging>
+        </packagings>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>org.openjfx:javafx-maven-plugin:0.0.8:run</goal>
+        </goals>
+        <properties>
+            <jpda.listen>true</jpda.listen>
+        </properties>
+    </action>
+</actions>
