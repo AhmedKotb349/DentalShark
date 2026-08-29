@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">DentalShark</string>
-    <string name="title_activity_main">DentalShark</string>
-    <string name="package_name">com.dentalshark.app</string>
-    <string name="custom_url_scheme">com.dentalshark.app</string>
-</resources>

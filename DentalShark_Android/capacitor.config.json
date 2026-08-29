@@ -1,8 +1,0 @@
-{
-  "appId": "com.dentalshark.app",
-  "appName": "DentalShark",
-  "webDir": "dist",
-  "server": {
-    "androidScheme": "https"
-  }
-}
