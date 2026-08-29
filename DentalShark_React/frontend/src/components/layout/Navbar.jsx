@@ -65,7 +65,7 @@ export default function Navbar({ onOpenCart, onOpenWishlist, onOpenNotifs, onOpe
         </Link>
 
         {/* Search — same simple style as the Shop page's own search bar (no dropdown) */}
-        <div style={{ flex: '1 1 auto', maxWidth: 340, minWidth: 0, position: 'relative' }}>
+        <div className="nav-search" style={{ flex: '1 1 auto', maxWidth: 340, minWidth: 0, position: 'relative' }}>
           <input
             placeholder={isAr ? 'ابحث عن المنتجات...' : 'Search products...'}
             value={query}
