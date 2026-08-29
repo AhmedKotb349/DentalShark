@@ -1,0 +1,11 @@
+@"
+node_modules/
+dist/
+android/build/
+android/app/build/
+android/.gradle/
+android/.kotlin/
+android/.idea/
+android/local.properties
+*.log
+"@ | Out-File -Encoding utf8 .gitignore
