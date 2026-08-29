@@ -965,6 +965,7 @@ body { overflow-x: hidden; }
   .free-ship-badge{display:none}
   .nav-right{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;gap:4px!important;flex-shrink:0;justify-content:flex-end!important}
   .nav-lang, .nav-theme { display:none!important }
+  .nav-search { display: none !important; }
   /* Place timer in the exact center of mobile/tablet/phone navbars */
   .nav-timer{position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;display:inline-flex!important;align-items:center!important;font-size:10px!important;padding:0 6px!important;height:28px!important;white-space:nowrap!important;margin:0!important;z-index:10!important}
   .user-name{display:inline-block!important;font-size:10px!important;max-width:55px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;color:var(--text)!important;vertical-align:middle!important}
